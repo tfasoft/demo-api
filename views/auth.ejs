@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Factor Authentication</title>
+
+    <script src="https://kit.fontawesome.com/4a679d8ec0.js" crossorigin="anonymous"></script>
+
+    <link href="css/mdb.min.css" rel="stylesheet" type="text/css" />
+    <link href="sass/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <nav class="navbar navbar-light bg-dark shadow-0 pt-3">
+        <div class="container">
+            <a href="/" class="navbar-brand text-white fw-bold">TFA Express</a>
+            <a href="/auth" class="btn btn-white fw-bold text-dark shadow-0">Signin</a>
+        </div>
+    </nav>
+    <div class="container py-5">
+        <div class="d-flex justify-content-center align-items-center">
+            <div class="col-md-4">
+                <div class="card-body border border-dark rounded-4">
+                    <h3 class="text-dark">Authenticate with Email</h3>
+                    <hr class="border border-dark" />
+                    <form action="/register" method="post">
+                        <label class="form-label" for="email">Email</label>
+                        <input class="form-control" id="email" placeholder="Email" name="email" />
+                        <br />
+                        <label class="form-label" for="password">Password</label>
+                        <input class="form-control" id="password" type="password" placeholder="Password" name="password" />
+                        <br />
+                        <div class="row">
+                            <div class="col">
+                                <button type="submit" class="w-100 btn btn-lg btn-dark fw-bold">Login</button>
+                            </div>
+                            <div class="col">
+                                <button type="submit" class="w-100 btn btn-lg btn-dark fw-bold">Register</button>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="d-flex justify-content-center align-items-center">
+                            <hr class="border border-dark w-100 me-2" />
+                            <span>Or</span>
+                            <hr class="border border-dark w-100 ms-2" />
+                        </div>
+                        <br />
+                        <button type="button" class="w-100 btn btn-lg btn-primary fw-bold"><i class="fa fa-paper-plane"></i> Authenticate with Telegram</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/mdb.min.js"></script>
+</body>
+</html>
