@@ -39,21 +39,24 @@ mongoose.connect(mdb)
 
 app.get('/', (req, res) => res.redirect('/auth'));
 
-app.get('/continue', (req, res) => res.render('continue'));
+app.get('/continue/:uid', (req, res) => {
+    res.render('continue', {uid: req.params.uid});
+});
 
 app.post('/continue', (req, res) => {
-    const uid = req.session.userid;
-
-    User.findByIdAndUpdate(uid, {email: req.body.email, pasword: req.body.password})
+    User.findByIdAndUpdate(req.params.uid, {email: req.body.email, pasword: req.body.password})
         .then((user) => res.redirect('/dashboard'))
         .catch((error) => res.send('Fuck error'));
-})
+});
 
 app.get('/dashboard', (req, res) => {
     if (!req.session.userid) res.redirect('/auth');
     else {
         User.findById(req.session.userid)
-            .then((user) => res.render('dashboard', {user}))
+            .then((user) => {
+                if (user.email == null && user.password == null) res.redirect(`/continue/${user.id}`);
+                else res.render('dashboard', {user});
+            })
             .catch((error) => res.send('Fuck error'));
     }
 });
@@ -125,9 +128,26 @@ app.post('/tfa', (req, res) => {
         .then((result) => {
             const data = result.data;
 
-            if (data.error == 820) res.send(data.message);
+            if (data.error == 800) {
+                User.findOne({tid: data.user.uid})
+                    .orFail((fail) => {
+                        const newUser = new User({tid: data.user.uid});
+
+                        newUser.save()
+                            .then((user) => {
+                                req.session.userid = user.id;
+                                res.redirect('/dashboard');
+                            })
+                            .catch((error) => res.send('Fuck error a'));
+                    })
+                    .then((user) => {
+                        req.session.userid = user.id;
+                        res.redirect('/dashboard');
+                    })
+                    .catch((error) => res.send('Fuck error b'));
+            }
+            else if (data.error == 820) res.send(data.message);
             else if (data.error == 290) res.send(data.message);
-            else if (data.error == 800) res.send(data.user)
             else res.send('Sorry something bad happened!');
         })
         .catch((error) => res.send(error));
