@@ -23,20 +23,17 @@
                 <div class="card-body border border-dark rounded-4">
                     <h3 class="text-dark">Authenticate with Email</h3>
                     <hr class="border border-dark" />
-                    <form action="/authorize" method="post">
+                    <form action="/login" method="post">
                         <label class="form-label" for="email">Email</label>
                         <input class="form-control" id="email" placeholder="Email" name="email" />
                         <br />
                         <label class="form-label" for="password">Password</label>
                         <input class="form-control" id="password" type="password" placeholder="Password" name="password" />
                         <br />
-                        <div class="row">
-                            <div class="col">
-                                <button type="submit" name="way" value="login" class="w-100 btn btn-lg btn-dark fw-bold">Login</button>
-                            </div>
-                            <div class="col">
-                                <button type="submit" name="way" value="register" class="w-100 btn btn-lg btn-dark fw-bold">Register</button>
-                            </div>
+                        <button type="submit" class="w-100 btn btn-lg btn-dark fw-bold">Login</button>
+                        <br />
+                        <br />
+                        <button data-mdb-toggle="modal" data-mdb-target="#register" type="button" class="w-100 btn btn-lg btn-dark fw-bold">Register</button>
                         </div>
                         <br />
                         <div class="d-flex justify-content-center align-items-center">
@@ -45,7 +42,7 @@
                             <hr class="border border-dark w-100 ms-2" />
                         </div>
                         <br />
-                        <button data-mdb-toggle="modal" data-mdb-target="#exampleModal" type="button" class="w-100 btn btn-lg btn-primary fw-bold"><i class="fa fa-paper-plane"></i> Authenticate with Telegram</button>
+                        <button data-mdb-toggle="modal" data-mdb-target="#telegram" type="button" class="w-100 btn btn-lg btn-primary fw-bold"><i class="fa fa-paper-plane"></i> Authenticate with Telegram</button>
                     </form>
                 </div>
             </div>
@@ -56,6 +53,30 @@
     <script src="js/mdb.min.js"></script>
 </body>
 </html>
+
+<!-- Modal -->
+<div class="modal fade" id="register" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold" id="exampleModalLabel">Register with Email</h5>
+          <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="/register" method="post">
+            <div class="modal-body">
+                <label class="form-label" for="email">Email</label>
+                    <input class="form-control" id="email" placeholder="Email" name="email" />
+                    <br />
+                    <label class="form-label" for="password">Password</label>
+                    <input class="form-control" id="password" type="password" placeholder="Password" name="password" />
+            </div>
+            <div class="modal-footer">
+            <button type="submit" class="btn btn-dark fw-bold">Register</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
