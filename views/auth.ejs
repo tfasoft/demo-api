@@ -23,7 +23,7 @@
                 <div class="card-body border border-dark rounded-4">
                     <h3 class="text-dark">Authenticate with Email</h3>
                     <hr class="border border-dark" />
-                    <form action="/register" method="post">
+                    <form action="/authorize" method="post">
                         <label class="form-label" for="email">Email</label>
                         <input class="form-control" id="email" placeholder="Email" name="email" />
                         <br />
@@ -32,10 +32,10 @@
                         <br />
                         <div class="row">
                             <div class="col">
-                                <button type="submit" name="" class="w-100 btn btn-lg btn-dark fw-bold">Login</button>
+                                <button type="submit" name="way" value="login" class="w-100 btn btn-lg btn-dark fw-bold">Login</button>
                             </div>
                             <div class="col">
-                                <button type="submit" class="w-100 btn btn-lg btn-dark fw-bold">Register</button>
+                                <button type="submit" name="way" value="register" class="w-100 btn btn-lg btn-dark fw-bold">Register</button>
                             </div>
                         </div>
                         <br />
