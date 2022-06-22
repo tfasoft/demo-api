@@ -86,3 +86,8 @@ app.post('/update/name', (req, res) => {
         .catch((error) => res.send(error))
 });
 
+app.post('/update/email', (req, res) => {
+    User.findByIdAndUpdate(req.session.userid, {email: req.body.email})
+        .then((result) => res.redirect('/dashboard'))
+        .catch((error) => res.send(error))
+});
