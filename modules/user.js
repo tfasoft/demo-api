@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const userModule = new Schema({
     tid: {
         type: Number,
-        required: true
+        required: false
     },
     email: {
         type: String,
