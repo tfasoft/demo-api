@@ -33,7 +33,7 @@ const mdb = `mongodb+srv://${env.MONGO_USERNAME}:${env.MONGO_PASSWORD}@${env.MON
 mongoose.connect(mdb)
     .then((connection) => {
         console.log('Connected');
-        app.listen(env.PORT || 5000);
+        app.listen(env.PORT || 8500);
     })
     .catch((error) => console.log('Fuck error 1'));
 
@@ -45,6 +45,10 @@ app.post('/continue', (req, res) => {
     User.findByIdAndUpdate(req.body.uid, {email: req.body.email, password: req.body.password})
         .then((user) => res.redirect('/dashboard'))
         .catch((error) => {
+            console.log('====================================');
+            console.log(error);
+            console.log('====================================');
+            
             res.set('Content-Type', 'text/plain');
             res.send('Fuck error 2');
         });
@@ -59,6 +63,10 @@ app.get('/dashboard', (req, res) => {
                 else res.render('dashboard', {user});
             })
             .catch((error) => {
+                console.log('====================================');
+                console.log(error);
+                console.log('====================================');
+                
                 res.set('Content-Type', 'text/plain');
                 res.send('Fuck error 3');
             });
@@ -88,6 +96,10 @@ app.post('/register', (req, res) => {
             res.redirect('/dashboard');
         })
         .catch((error) => {
+            console.log('====================================');
+            console.log(error);
+            console.log('====================================');
+
             res.set('Content-Type', 'text/plain');
             res.send('Fuck error 4');
         });
@@ -95,12 +107,19 @@ app.post('/register', (req, res) => {
 
 app.post('/login', (req, res) => {
     User.findOne({email: req.body.email, password: req.body.password})
-        .orFail((fail) => res.send('User is not founded.'))
         .then((user) => {
-            req.session.userid = user.id;
-            res.redirect('/dashboard');
+            if (user === null) {
+                res.send('User is not founded.');
+            } else {
+                req.session.userid = user.id;
+                res.redirect('/dashboard');
+            }
         })
         .catch((error) => {
+            console.log('====================================');
+            console.log(error);
+            console.log('====================================');
+
             res.set('Content-Type', 'text/plain');
             res.send('Fuck error 5');
         });
@@ -110,6 +129,10 @@ app.post('/update/name', (req, res) => {
     User.findByIdAndUpdate(req.session.userid, {name: req.body.name})
         .then((result) => res.redirect('/dashboard'))
         .catch((error) => {
+            console.log('====================================');
+            console.log(error);
+            console.log('====================================');
+
             res.set('Content-Type', 'text/plain');
             res.send('Fuck error 6');
         });
@@ -119,6 +142,10 @@ app.post('/update/email', (req, res) => {
     User.findByIdAndUpdate(req.session.userid, {email: req.body.email})
         .then((result) => res.redirect('/dashboard'))
         .catch((error) => {
+            console.log('====================================');
+            console.log(error);
+            console.log('====================================');
+
             res.set('Content-Type', 'text/plain');
             res.send('Fuck error 7');
         });});
@@ -130,6 +157,10 @@ app.post('/update/password', (req, res) => {
                 User.findByIdAndUpdate(req.session.userid, {password: req.body.new})
                     .then((result) => res.send('Password changed'))
                     .catch((error) => {
+                        console.log('====================================');
+                        console.log(error);
+                        console.log('====================================');
+
                         res.set('Content-Type', 'text/plain');
                         res.send('Fuck error 8');
                     });
@@ -138,6 +169,10 @@ app.post('/update/password', (req, res) => {
             }
         })
         .catch((error) => {
+            console.log('====================================');
+            console.log(error);
+            console.log('====================================');
+
             res.set('Content-Type', 'text/plain');
             res.send('Fuck error 9');
         });
@@ -155,37 +190,51 @@ app.post('/tfa', (req, res) => {
 
             if (data.error == 800) {
                 User.findOne({tid: data.user.uid})
-                    .orFail((fail) => {
-                        const newUser = new User({
-                            tid: data.user.uid,
-                            email: '',
-                            password: ''
-                        });
-
-                        newUser.save()
-                            .then((user) => {
-                                req.session.userid = user.id;
-                                res.redirect('/dashboard');
-                            })
-                            .catch((error) => {
-                                res.set('Content-Type', 'text/plain');
-                                res.send('Fuck error 10');
-                            });
-                    })
                     .then((user) => {
-                        req.session.userid = user.id;
-                        res.redirect('/dashboard');
-                    })
-                    .catch((error) => {
-                        res.set('Content-Type', 'text/plain');
-                        res.send('Fuck error 11');
+                        if (user === null) {
+                            const newUser = new User({
+                                tid: data.user.uid,
+                                email: '',
+                                password: ''
+                            });
+    
+                            newUser.save()
+                                .then((user) => {
+                                    req.session.userid = user.id;
+                                    res.redirect(`/continue/${user.id}`);
+                                });
+                                // .catch((error) => {
+                                //     console.log('====================================');
+                                //     console.log(error);
+                                //     console.log('====================================');
+
+                                //     res.set('Content-Type', 'text/plain');
+                                //     res.send('Fuck error 10');
+                                // });
+                        } else {
+                            req.session.userid = user.id;
+                            res.redirect('/dashboard');
+                        }
                     });
+                    
+                    // .catch((error) => {
+                    //     console.log('====================================');
+                    //     console.log(error);
+                    //     console.log('====================================');
+
+                    //     res.set('Content-Type', 'text/plain');
+                    //     res.send('Fuck error 11');
+                    // });
             }
             else if (data.error == 820) res.send(data.message);
             else if (data.error == 290) res.send(data.message);
             else res.send('Sorry something bad happened!');
         })
         .catch((error) => {
+            console.log('====================================');
+            console.log(error);
+            console.log('====================================');
+
             res.set('Content-Type', 'text/plain');
             res.send('Fuck error 12');
         });
