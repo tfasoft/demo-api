@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TFA Express Sample</title>
+
+    <script src="https://kit.fontawesome.com/4a679d8ec0.js" crossorigin="anonymous"></script>
+
+    <link href="css/mdb.min.css" rel="stylesheet" type="text/css" />
+    <link href="sass/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <nav class="navbar navbar-light bg-dark shadow-0 py-3">
+        <div class="container">
+            <a href="/" class="navbar-brand text-white fw-bold">TFA Dashboard</a>
+        </div>
+    </nav>
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="m-1">
+                    <h2 class="text-dark">Change name</h2>
+                    <br />
+                    <form action="/update/name" method="post">
+                        <label class="form-label" for="name">Name</label>
+                        <input placeholder="Name" value="<%= user.name %>" class="form-control" id="name" name="name" />
+                        <br />
+                        <button type="submit" class="btn btn-dark fw-bold">Change name</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <hr class="border border-dark" />
+        <div class="row">
+            <div class="col-md-6">
+                <div class="m-1">
+                    <h2 class="text-dark">Change email</h2>
+                    <br />
+                    <form action="/update/email" method="post">
+                        <label class="form-label" for="email">Email</label>
+                        <input placeholder="Email" value="<%= user.email %>" class="form-control" id="email" name="email" />
+                        <br />
+                        <button type="submit" class="btn btn-dark fw-bold">Change email</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <hr class="border border-dark" />
+        <div class="row">
+            <div class="col-md-6">
+                <div class="m-1">
+                    <h2 class="text-dark">Change password</h2>
+                    <br />
+                    <form action="/update/password" method="post">
+                        <label class="form-label" for="current">Current password</label>
+                        <input placeholder="Current password" type="password" class="form-control" id="current" name="current" />
+                        <br />
+                        <div class="row">
+                            <div class="col">
+                                <label class="form-label" for="new">New password</label>
+                                <input placeholder="New password" type="password" class="form-control" id="new" name="new" />
+                            </div>
+                            <div class="col">
+                                <label class="form-label" for="repeat">Repeat password</label>
+                                <input placeholder="Repeat password" type="password" class="form-control" id="repeat" name="repeat" />
+                            </div>
+                        </div>
+                        <br />
+                        <button type="submit" class="btn btn-dark fw-bold">Change password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <hr class="border border-danger" />
+        <div class="row">
+            <div class="col-md-6">
+                <div class="m-1">
+                    <h2 class="text-danger">Logout</h2>
+                    <br />
+                    <a href="/logout" class="btn btn-danger fw-bold shadow-0">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/clipboard.min.js"></script>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/mdb.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
