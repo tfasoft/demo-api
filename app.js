@@ -1,11 +1,13 @@
 const express = require('express');
-const session = require('express-session');
+const sessions = require('express-session');
 const mongoose = require('mongoose');
 
 const User = require('./modules/user');
 
 require('dotenv').config();
 const env = process.env;
+
+const session = require('express-session');
 
 const oneDay = 1000 * 60 * 60 * 24;
 
@@ -15,7 +17,7 @@ app.set('trust proxy', 1);
 app.set('view engine', 'ejs');
 
 app.use(session({
-    secret: 'thesecretkey',
+    secret: 'testnew',
     resave: false,
     cookie: { maxAge: oneDay },
     saveUninitialized: true
@@ -44,7 +46,7 @@ app.get('/dashboard', (req, res) => {
 });
 
 app.get('/auth', (req, res) => {
-    if (req.session.userid) res.redirect('/panel');
+    if (req.session.userid) res.redirect('/dashboard');
     else res.render('auth');
 });
 
@@ -53,31 +55,28 @@ app.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
-app.post('/authorize', (req, res) => {
-    if (req.body.way == "register") {
-        User.findOne({email: req.body.email})
-            .orFail((fail) => {
-                const newUser = new User({email: req.body.email, password: req.body.password});
+app.post('/register', (req, res) => {
+    const newUser = new User({email: req.body.email, password: req.body.password});
 
-                newUser.save()
-                    .then((user) => {
-                        req.session.userid = user.id;
+    newUser.save()
+        .then((user) => {
+            req.session.userid = user.id;
+            res.redirect('/dashboard');
+        })
+        .catch((error) => {
+            res.send(error);
+        });});
 
-                        res.redirect('/dashboard');
-                    })
-                    .catch((error) => res.send(error));
-            })
-            .then((then) => res.send('Email is used.'))
-            .catch((error) => res.send(error));
-    } else if (req.body.way == "login") {
-        User.findOne({email: req.body.email, password: req.body.password})
-            .orFail((fail) => res.send('User is not founded.'))
-            .then((user) => {
-                req.session.userid = user.id;
-
-                res.redirect('/dashboard');
-            });
-    }
+app.post('/login', (req, res) => {
+    User.findOne({email: req.body.email, password: req.body.password})
+        .orFail((fail) => res.send('User is not founded.'))
+        .then((user) => {
+            req.session.userid = user.id;
+            res.redirect('/dashboard');
+        })
+        .catch((error) => {
+            res.send(error);
+        });
 });
 
 app.post('/update/name', (req, res) => {
@@ -90,4 +89,17 @@ app.post('/update/email', (req, res) => {
     User.findByIdAndUpdate(req.session.userid, {email: req.body.email})
         .then((result) => res.redirect('/dashboard'))
         .catch((error) => res.send(error))
+});
+
+app.post('/update/password', (req, res) => {
+    User.findOne({id: req.session.userid, password: req.body.current})
+        .then((user) => {
+            if (req.body.new == req.body.confirm) {
+                User.findByIdAndUpdate(req.session.userid, {password: req.body.new})
+                    .then((result) => res.send('Password changed'))
+                    .catch((error) => res.send(error))
+            } else {
+                res.send('Passwords are not match.');
+            }
+        });
 });
