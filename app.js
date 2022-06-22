@@ -39,9 +39,7 @@ mongoose.connect(mdb)
 
 app.get('/', (req, res) => res.redirect('/auth'));
 
-app.get('/continue/:uid', (req, res) => {
-    res.render('continue', {uid: req.params.uid});
-});
+app.get('/continue/:uid', (req, res) => res.render('continue', {uid: req.params.uid}));
 
 app.post('/continue', (req, res) => {
     User.findByIdAndUpdate(req.body.uid, {email: req.body.email, password: req.body.password})
