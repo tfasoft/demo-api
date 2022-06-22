@@ -44,7 +44,7 @@ app.get('/continue/:uid', (req, res) => {
 });
 
 app.post('/continue', (req, res) => {
-    User.findByIdAndUpdate(req.params.uid, {email: req.body.email, pasword: req.body.password})
+    User.findByIdAndUpdate(req.body.uid, {email: req.body.email, password: req.body.password})
         .then((user) => res.redirect('/dashboard'))
         .catch((error) => {
             res.set('Content-Type', 'text/plain');
