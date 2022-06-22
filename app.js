@@ -76,7 +76,13 @@ app.post('/authorize', (req, res) => {
                 req.session.userid = user.id;
 
                 res.redirect('/dashboard');
-            })
-            .catch((error) => res.send(error));
+            });
     }
 });
+
+app.post('/update/name', (req, res) => {
+    User.findByIdAndUpdate(req.session.userid, {name: req.body.name})
+        .then((result) => res.redirect('/dashboard'))
+        .catch((error) => res.send(error))
+});
+
