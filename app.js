@@ -115,10 +115,10 @@ app.post('/update/password', (req, res) => {
         .catch((error) => res.send('Fuck error'));
 });
 
-app.get('/tfa', (req, res) => {
+app.post('/tfa', (req, res) => {
     const tfa_data = {
-        admin: 'ZmErsKQcfaODiKAZdopcwQEjW',
-        user: 'BQjschASiigOSOZuFICCMHUYQ',
+        admin: env.ACCESS_TOKEN,
+        user: req.body.token,
     };
 
     axios.get(`https://tele-fa-api.herokuapp.com/api/access/${tfa_data.admin}/${tfa_data.user}`)
@@ -128,7 +128,7 @@ app.get('/tfa', (req, res) => {
             if (data.error == 820) res.send(data.message);
             else if (data.error == 290) res.send(data.message);
             else if (data.error == 800) res.send(data.user)
-            else res.send('IDK');
+            else res.send('Sorry something bad happened!');
         })
         .catch((error) => res.send(error));
 });
