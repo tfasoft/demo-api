@@ -32,7 +32,7 @@ mongoose.connect(mdb)
         console.log('Connected');
         app.listen(env.PORT || 5000);
     })
-    .catch((error) => console.log(error));
+    .catch((error) => res.send('Fuck error'));
 
 app.get('/', (req, res) => res.redirect('/auth'));
 
@@ -41,7 +41,7 @@ app.get('/dashboard', (req, res) => {
     else {
         User.findById(req.session.userid)
             .then((user) => res.render('dashboard', {user}))
-            .catch((error) => res.send(error));
+            .catch((error) => res.send('Fuck error'));
     }
 });
 
@@ -63,9 +63,8 @@ app.post('/register', (req, res) => {
             req.session.userid = user.id;
             res.redirect('/dashboard');
         })
-        .catch((error) => {
-            res.send(error);
-        });});
+        .catch((error) => res.send('Fuck error'));
+});
 
 app.post('/login', (req, res) => {
     User.findOne({email: req.body.email, password: req.body.password})
@@ -74,32 +73,31 @@ app.post('/login', (req, res) => {
             req.session.userid = user.id;
             res.redirect('/dashboard');
         })
-        .catch((error) => {
-            res.send(error);
-        });
+        .catch((error) => res.send('Fuck error'));
 });
 
 app.post('/update/name', (req, res) => {
     User.findByIdAndUpdate(req.session.userid, {name: req.body.name})
         .then((result) => res.redirect('/dashboard'))
-        .catch((error) => res.send(error))
+        .catch((error) => res.send('Fuck error'));
 });
 
 app.post('/update/email', (req, res) => {
     User.findByIdAndUpdate(req.session.userid, {email: req.body.email})
         .then((result) => res.redirect('/dashboard'))
-        .catch((error) => res.send(error))
+        .catch((error) => res.send('Fuck error'));
 });
 
 app.post('/update/password', (req, res) => {
     User.findOne({id: req.session.userid, password: req.body.current})
         .then((user) => {
-            if (req.body.new == req.body.confirm) {
+            if (req.body.new == req.body.repeat) {
                 User.findByIdAndUpdate(req.session.userid, {password: req.body.new})
                     .then((result) => res.send('Password changed'))
-                    .catch((error) => res.send(error))
+                    .catch((error) => res.send('Fuck error'));
             } else {
                 res.send('Passwords are not match.');
             }
-        });
+        })
+        .catch((error) => res.send('Fuck error'));
 });
