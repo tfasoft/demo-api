@@ -36,6 +36,8 @@ mongoose.connect(mdb)
 
 app.get('/', (req, res) => res.redirect('/auth'));
 
+app.get('/continue', (req, res) => res.render('continue'));
+
 app.get('/dashboard', (req, res) => {
     if (!req.session.userid) res.redirect('/auth');
     else {
