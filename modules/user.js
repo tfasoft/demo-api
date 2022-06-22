@@ -9,15 +9,15 @@ const userModule = new Schema({
     },
     email: {
         type: String,
-        required: true
+        required: false
     },
     password: {
         type: String,
-        required: true
+        required: false
     },
     name: {
         type: String,
-        required: true
+        required: false
     },
 }, {timestamps: true});
 
