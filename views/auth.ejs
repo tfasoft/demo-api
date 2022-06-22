@@ -15,7 +15,6 @@
     <nav class="navbar navbar-light bg-dark shadow-0 pt-3">
         <div class="container">
             <a href="/" class="navbar-brand text-white fw-bold">TFA Express</a>
-            <a href="/auth" class="btn btn-white fw-bold text-dark shadow-0">Signin</a>
         </div>
     </nav>
     <div class="container py-5">
@@ -46,7 +45,7 @@
                             <hr class="border border-dark w-100 ms-2" />
                         </div>
                         <br />
-                        <button type="button" class="w-100 btn btn-lg btn-primary fw-bold"><i class="fa fa-paper-plane"></i> Authenticate with Telegram</button>
+                        <button data-mdb-toggle="modal" data-mdb-target="#exampleModal" type="button" class="w-100 btn btn-lg btn-primary fw-bold"><i class="fa fa-paper-plane"></i> Authenticate with Telegram</button>
                     </form>
                 </div>
             </div>
@@ -57,3 +56,24 @@
     <script src="js/mdb.min.js"></script>
 </body>
 </html>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold" id="exampleModalLabel">Authorization with <span class="text-primary">Telegram</span></h5>
+          <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form>
+            <div class="modal-body">
+                <label class="form-label" for="token">Enter your token</label>
+                <input class="form-control" name="utoken" id="token" type="password" placeholder="Token" />
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-primary fw-bold">Authorize</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
