@@ -57,7 +57,7 @@ app.get('/dashboard', (req, res) => {
     else {
         User.findById(req.session.userid)
             .then((user) => {
-                if (user.email == null && user.password == null) res.redirect(`/continue/${user.id}`);
+                if (user.email === "" && user.password === "") res.redirect(`/continue/${user.id}`);
                 else res.render('dashboard', {user});
             })
             .catch((error) => {
@@ -169,6 +169,10 @@ app.post('/tfa', (req, res) => {
                                 req.session.userid = user.id;
                                 res.redirect('/dashboard');
                             })
+                            .catch((error) => {
+                                res.set('Content-Type', 'text/plain');
+                                res.send('Fuck error 10');
+                            });
                     })
                     .then((user) => {
                         req.session.userid = user.id;
