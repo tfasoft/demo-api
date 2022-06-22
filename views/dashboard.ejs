@@ -18,11 +18,12 @@
         </div>
     </nav>
     <div class="container py-4">
+        <h1>Welcome <%= user.name %></h1>
+        <br />
         <div class="row">
             <div class="col-md-6">
                 <div class="m-1">
                     <h2 class="text-dark">Change name</h2>
-                    <br />
                     <form action="/update/name" method="post">
                         <label class="form-label" for="name">Name</label>
                         <input placeholder="Name" value="<%= user.name %>" class="form-control" id="name" name="name" />
@@ -37,7 +38,6 @@
             <div class="col-md-6">
                 <div class="m-1">
                     <h2 class="text-dark">Change email</h2>
-                    <br />
                     <form action="/update/email" method="post">
                         <label class="form-label" for="email">Email</label>
                         <input placeholder="Email" value="<%= user.email %>" class="form-control" id="email" name="email" />
@@ -52,7 +52,6 @@
             <div class="col-md-6">
                 <div class="m-1">
                     <h2 class="text-dark">Change password</h2>
-                    <br />
                     <form action="/update/password" method="post">
                         <label class="form-label" for="current">Current password</label>
                         <input placeholder="Current password" type="password" class="form-control" id="current" name="current" />
@@ -77,8 +76,6 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="m-1">
-                    <h2 class="text-danger">Logout</h2>
-                    <br />
                     <a href="/logout" class="btn btn-danger fw-bold shadow-0">Logout</a>
                 </div>
             </div>
