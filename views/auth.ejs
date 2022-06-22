@@ -86,10 +86,10 @@
           <h5 class="modal-title fw-bold" id="exampleModalLabel">Authorization with <span class="text-primary">Telegram</span></h5>
           <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form>
+        <form action="/tfa" method="post">
             <div class="modal-body">
                 <label class="form-label" for="token">Enter your token</label>
-                <input class="form-control" name="utoken" id="token" type="password" placeholder="Token" />
+                <input class="form-control" name="token" id="token" type="password" placeholder="Token" />
             </div>
             <div class="modal-footer">
             <button type="submit" class="btn btn-primary fw-bold">Authorize</button>
