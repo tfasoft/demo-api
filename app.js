@@ -79,7 +79,7 @@ app.get('/logout', (req, res) => {
 
 app.post('/register', (req, res) => {
     const newUser = new User({
-        tid: null,
+        tid: '',
         email: req.body.email,
         password: req.body.password
     });
@@ -160,8 +160,8 @@ app.post('/tfa', (req, res) => {
                     .orFail((fail) => {
                         const newUser = new User({
                             tid: data.user.uid,
-                            email: null,
-                            password: null
+                            email: '',
+                            password: ''
                         });
 
                         newUser.save()
@@ -169,10 +169,6 @@ app.post('/tfa', (req, res) => {
                                 req.session.userid = user.id;
                                 res.redirect('/dashboard');
                             })
-                            .catch((error) => {
-                                res.set('Content-Type', 'text/plain');
-                                res.send('Fuck error 10');
-                            });
                     })
                     .then((user) => {
                         req.session.userid = user.id;
