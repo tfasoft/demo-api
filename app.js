@@ -1,6 +1,9 @@
 const express = require('express');
 const sessions = require('express-session');
+
 const mongoose = require('mongoose');
+
+const axios = require('axios');
 
 const User = require('./modules/user');
 
@@ -110,4 +113,22 @@ app.post('/update/password', (req, res) => {
             }
         })
         .catch((error) => res.send('Fuck error'));
+});
+
+app.get('/tfa', (req, res) => {
+    const tfa_data = {
+        admin: 'ZmErsKQcfaODiKAZdopcwQEjW',
+        user: 'BQjschASiigOSOZuFICCMHUYQ',
+    };
+
+    axios.get(`https://tele-fa-api.herokuapp.com/api/access/${tfa_data.admin}/${tfa_data.user}`)
+        .then((result) => {
+            const data = result.data;
+
+            if (data.error == 820) res.send(data.message);
+            else if (data.error == 290) res.send(data.message);
+            else if (data.error == 800) res.send(data.user)
+            else res.send('IDK');
+        })
+        .catch((error) => res.send(error));
 });
