@@ -5,19 +5,23 @@ const Schema = mongoose.Schema;
 const userModule = new Schema({
     tid: {
         type: String,
-        required: false
+        required: false,
+        default: null,
     },
     email: {
         type: String,
-        required: false
+        required: false,
+        default: null,
     },
     password: {
         type: String,
-        required: false
+        required: false,
+        default: null,
     },
     name: {
         type: String,
-        required: false
+        required: false,
+        default: null,
     },
 }, {timestamps: true});
 
