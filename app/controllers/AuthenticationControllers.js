@@ -9,14 +9,14 @@ const TelegramAuthentication = (req, res) => {
     const result = auth.authUser(req.body.user_token);
 
     result.then((response) => {
-       const statCode = response.status;
-       const data = response.data;
+        const code = response.status;
+        const data = response.data;
 
-       if (statCode === 200) {
-           User.findOne({ tid: data.user.uid })
+       if (code === 200) {
+           User.findOne({ tid: data.user.tid })
                .then((result) => {
                    const userData = {
-                       tid: data.user.uid,
+                       tid: data.user.tid,
                    };
 
                    if (result === null) {
