@@ -29,7 +29,13 @@ const EmailPasswordRegister = (req, res) => {
 const EmailPasswordLogin = (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
 
-    res.send(req.body);
+    User.findOne(req.body)
+        .then((result) => {
+            res.send(result);
+        })
+        .catch((error) => {
+            res.send(error)
+        });
 }
 
 module.exports = {
