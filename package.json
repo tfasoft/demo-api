@@ -26,12 +26,9 @@
   },
   "homepage": "https://github.com/tele-fa/tfa-express-sample#readme",
   "dependencies": {
-    "axios": "^0.27.2",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
-    "ejs": "^3.1.8",
     "express": "^4.18.1",
-    "express-session": "^1.17.3",
     "mongoose": "^6.4.0",
     "tfa-node-sdk": "^1.1.2"
   }
