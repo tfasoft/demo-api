@@ -16,7 +16,14 @@ const TelegramAuthentication = (req, res) => {
 const EmailPasswordRegister = (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
 
-    res.send(req.body);
+    const user = new User(req.body);
+    user.save()
+        .then((result) => {
+            res.send(result);
+        })
+        .catch((error) => {
+            res.send(error);
+        })
 }
 
 const EmailPasswordLogin = (req, res) => {
