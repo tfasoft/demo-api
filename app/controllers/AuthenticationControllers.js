@@ -68,7 +68,16 @@ const EmailPasswordLogin = (req, res) => {
 
     User.findOne(req.body)
         .then((result) => {
-            res.send(result);
+            if (result === null) {
+                const data = {
+                    message: "User is not founded",
+                }
+                res.status(401);
+                res.send(data);
+            } else {
+                res.status(200);
+                res.send(result);
+            }
         })
         .catch((error) => {
             res.send(error)
