@@ -56,10 +56,12 @@ const EmailPasswordRegister = (req, res) => {
     const user = new User(req.body);
     user.save()
         .then((result) => {
+            res.status(200);
             res.send(result);
         })
         .catch((error) => {
-            res.send(error);
+            res.status(500);
+            res.send(data);
         });
 }
 
@@ -80,7 +82,8 @@ const EmailPasswordLogin = (req, res) => {
             }
         })
         .catch((error) => {
-            res.send(error)
+            res.status(500);
+            res.send(data);
         });
 }
 
