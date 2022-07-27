@@ -1,11 +1,14 @@
 const tfa = require('tfa-node-sdk');
 
+require('dotenv').config();
+const env = process.env;
+
 const User = require('../models/user');
 
 const TelegramAuthentication = (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
 
-    const auth = new tfa("WuBjwvrQencoplabrUtPvDKaz");
+    const auth = new tfa(env.ACCESS_TOKEN);
     const result = auth.authUser(req.body.user_token);
 
     result.then((response) => {
