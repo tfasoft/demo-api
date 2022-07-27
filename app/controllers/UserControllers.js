@@ -28,7 +28,24 @@ const update = (req, res) => {
         })
 }
 
+const telegram = (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+
+    const data = req.body;
+
+    User.findByIdAndUpdate(data.uid, data.data)
+        .then((result) => {
+            res.status(200);
+            res.send(result);
+        })
+        .catch((error) => {
+            res.status(401);
+            res.send(error);
+        })
+}
+
 module.exports = {
     info,
     update,
+    telegram
 }
