@@ -6,7 +6,9 @@ const env = process.env;
 
 mongoose.connect(env.MONGO_URL)
     .then((connection) => {
-        console.log('Connected');
-        app.listen(env.PORT || 5000);
+        const port = env.PORT;
+
+        console.log(`Connected. Running in ${port}`)
+        app.listen(port);
     })
     .catch((error) => console.log(error));
