@@ -57,11 +57,15 @@ export const TELEGRAM_AUTH = async (req, res) => {
         if (user) {
           const dbUser = await User.findOne(req.body);
 
-          res.status(200).send({ token: createToken(dbUser._id) });
+          res
+            .status(200)
+            .send({ token: createToken(dbUser._id), user: dbUser });
         } else {
           const newUser = await User.create(userData);
 
-          res.status(200).send({ token: createToken(newUser._id) });
+          res
+            .status(200)
+            .send({ token: createToken(newUser._id), user: newUser });
         }
       } catch (error) {
         res.status(500).send({ message: error.message });
