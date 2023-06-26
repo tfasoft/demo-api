@@ -1,6 +1,7 @@
 import { User } from "$app/models/index.js";
 import { createToken, tfa } from "$app/functions/index.js";
 
+import axios from "axios";
 import md5 from "md5";
 
 export const LOGIN = async (req, res) => {
@@ -38,40 +39,50 @@ export const REGISTER = async (req, res) => {
   }
 };
 
+export const TELEGRAM_REQUEST = async (req, res) => {
+  try {
+    const { data } = await axios.post(
+      "http://localhost:25000/api/auth/request",
+      {
+        admin: "644245fc0255e2cce61e8c52",
+        service: "6442a3bc4b8726646d465d5d",
+        user: null,
+        callbackUrl: "http://localhost:9999/api/auth/telegram",
+      }
+    );
+
+    return res.status(200).send(data);
+  } catch (error) {
+    return res.status(500).send({ message: error.message });
+  }
+};
+
 export const TELEGRAM_AUTH = async (req, res) => {
-  const body = req.body;
+  const data = req.body;
 
   try {
-    const { data, status } = await tfa.authUser(body.userToken);
-
-    if (status === 200) {
-      console.log(data);
+    if (data.resCode === 0) {
+      const userData = {
+        tid: data.user,
+      };
 
       try {
-        const user = await User.findOne({ tid: data.tid });
+        const user = await User.findOne(userData);
 
-        const userData = {
-          tid: data.tid,
-        };
+        const dUser = user
+          ? await User.findOne(req.body)
+          : await User.create(userData);
 
-        if (user) {
-          const dbUser = await User.findOne(req.body);
+        res.redirect("https://google.com");
 
-          res
-            .status(200)
-            .send({ token: createToken(dbUser._id), user: dbUser });
-        } else {
-          const newUser = await User.create(userData);
-
-          res
-            .status(200)
-            .send({ token: createToken(newUser._id), user: newUser });
-        }
+        // res.status(200).send({ token: createToken(dUser._id), user: dUser });
       } catch (error) {
-        res.status(500).send({ message: error.message });
+        res.redirect("https://google.com");
+
+        // res.status(500).send({ message: error.message });
       }
     } else {
-      throw new Error(data.message);
+      res.status(500).send({ message: "Faild to authenticate" });
     }
   } catch (error) {
     res.status(401).send({ message: error.message });

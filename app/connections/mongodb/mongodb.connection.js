@@ -1,11 +1,15 @@
 import mongoose from "mongoose";
 
 import { databaseConfig } from "$app/config/index.js";
+import { appConfig } from "$app/config/index.js";
 
-const { mongodb } = databaseConfig;
+const {
+  mongodb: { atlas, host, port, collection },
+} = databaseConfig;
 
-// const url = `mongodb://${mongodb.host}:${mongodb.port}/${mongodb.collection}`;
-const url = mongodb.atlas;
+const url = appConfig.production
+  ? atlas
+  : `mongodb://${host}:${port}/${collection}`;
 
 const connection = mongoose.createConnection(url, (error) => {
   if (error) {
